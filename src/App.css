@@ -1,0 +1,89 @@
+#root {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.main-div {
+  display: flex;
+  width: 100%;
+  gap: 55px;
+}
+
+
+.left, .right {
+  width: 50%;
+  height: 100vh;
+  border: 1px solid grey;
+}
+
+.leftData {
+  display: flex;
+  gap: 7px;
+  flex-direction: column;
+  border-radius: 20px;
+  padding: 20px;
+  min-width:200px;
+  max-height: fit-content;
+  max-width: fit-content;
+  box-shadow: 0px 0px 10px -1px rgb(191, 191, 191);
+  justify-content: center;
+}
+
+.leftData div {
+  gap: 10px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+.leftData div p {
+  color: rgb(165, 42, 157);
+  font-weight: 500;
+  font-size: 12px;
+}
+
+
+.left {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.right {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-direction: column;
+}
+
+form button {
+  background-color: rgb(169, 169, 169);
+  color: white;
+}
+
+form:hover {
+  background-color: rgb(247, 250, 252);
+}
+
+form {
+  border-radius: 10px;
+  padding: 50px;
+  display: grid;
+  justify-content: center;
+  gap: 5px;
+  border: none;
+  width: fit-content;
+  box-shadow: 0px 0px 10px -1px rgb(191, 191, 191);
+}
+
+form div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
