@@ -11,7 +11,7 @@ function App() {
   const [editId, setEditId] = useState(null); // State to track the id of the product being edited
 
   const fetchData = () => {
-    fetch("/api/my-products")
+    fetch("https://backend-express-js-two.vercel.app/api/my-products")
       .then((res) => res.json())
       .then((data) => {
         setApiData(data);
@@ -36,7 +36,7 @@ function App() {
       address,
     };
 
-    const url = editId ? `/api/update-product/${editId}` : '/api/add-products';
+    const url = editId ? `https://backend-express-js-two.vercel.app/api/update-product/${editId}` : 'https://backend-express-js-two.vercel.app/api/add-products';
     const method = editId ? "PATCH" : "POST"; // Use PATCH for update and POST for add
 
     fetch(url, {
@@ -57,7 +57,7 @@ function App() {
   };
 
   const deleteProduct = (id) => {
-    fetch(`/api/delete-product/${id}`, {
+    fetch(`https://backend-express-js-two.vercel.app/api/delete-product/${id}`, {
       method: "DELETE",
     }).then((res) => {
       if (res.ok) {
