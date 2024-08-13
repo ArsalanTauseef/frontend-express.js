@@ -36,30 +36,37 @@ function App() {
       address,
     };
 
-    const url = editId ? `https://backend-express-js-two.vercel.app/api/update-product/${editId}` : 'https://backend-express-js-two.vercel.app/api/add-products';
+    const url = editId
+      ? `https://backend-express-js-two.vercel.app/api/update-product/${editId}`
+      : "https://backend-express-js-two.vercel.app/api/add-products";
     const method = editId ? "PATCH" : "POST"; // Use PATCH for update and POST for add
 
     fetch(url, {
       method,
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
-    })
-      .then((result) => {
-        if (result.ok) {
-          setFetchData(true);
-          setName("");
-          setContact("");
-          setEmail("");
-          setAddress("");
-          setEditId(null); // Reset editId after successful operation
-        }
-      });
+    }).then((result) => {
+      if (result.ok) {
+        setFetchData(true);
+        setName("");
+        setContact("");
+        setEmail("");
+        setAddress("");
+        setEditId(null); // Reset editId after successful operation
+      }
+    });
   };
 
   const deleteProduct = (id) => {
-    fetch(`https://backend-express-js-two.vercel.app/api/delete-product/${id}`, {
-      method: "DELETE",
-    }).then((res) => {
+    fetch(
+      `https://backend-express-js-two.vercel.app/api/delete-product/${id}`,
+      {
+        method: "DELETE",
+      }
+    ).then((res) => {
       if (res.ok) {
         setApiData(apiData.filter((item) => item.id !== id));
         console.log("Product deleted");
@@ -79,55 +86,87 @@ function App() {
 
   return (
     <>
-      <div className="main-div">
-        <div className="left">
-          <h1>DATA</h1>
-          {apiData.map((item) => (
-            <div className="leftData" key={item.id}>
+      <div className="wrapper">
+        <header>
+          <h1>A Project created using Express.js & React.js by...</h1>
+          <p style={{ fontFamily: "Bradley Hand, cursive" }}>
+            - Arsalan Tauseef
+          </p>
+        </header>
+        <main className="main-div">
+          <div className="left">
+            <h1>DATA</h1>
+            <div className="left-div-2">
+              {apiData.map((item) => (
+                <div className="leftData" key={item.id}>
+                  <div>
+                    <h5>ID: </h5>
+                    <p>{item.id}</p>
+                  </div>
+                  <div>
+                    <h5>Name: </h5>
+                    <p>{item.name}</p>
+                  </div>
+                  <div>
+                    <h5>Contact: </h5>
+                    <p>{item.contact}</p>
+                  </div>
+                  <div>
+                    <h5>Email: </h5>
+                    <p>{item.email}</p>
+                  </div>
+                  <div>
+                    <h5>Address: </h5>
+                    <p>{item.address}</p>
+                  </div>
+                  <button onClick={() => deleteProduct(item.id)}>Delete</button>
+                  <button onClick={() => handleEdit(item)}>Edit</button>{" "}
+                  {/* Add an edit button */}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="right">
+            <h1>FORM</h1>
+            <form>
               <div>
-                <h5>ID: </h5><p>{item.id}</p>
+                <label>Name: </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </div>
               <div>
-                <h5>Name: </h5><p>{item.name}</p>
+                <label>Contact: </label>
+                <input
+                  type="text"
+                  value={contact}
+                  onChange={(e) => setContact(e.target.value)}
+                />
               </div>
               <div>
-                <h5>Contact: </h5><p>{item.contact}</p>
+                <label>Email: </label>
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div>
-                <h5>Email: </h5><p>{item.email}</p>
+                <label>Address: </label>
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
               </div>
-              <div>
-                <h5>Address: </h5><p>{item.address}</p>
-              </div>
-              <button onClick={() => deleteProduct(item.id)}>Delete</button>
-              <button onClick={() => handleEdit(item)}>Edit</button> {/* Add an edit button */}
-            </div>
-          ))}
-        </div>
-        <div className="right">
-          <h1>FORM</h1>
-          <form>
-            <div>
-              <label>Name: </label> 
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-            </div>
-            <div>
-              <label>Contact: </label> 
-              <input type="text" value={contact} onChange={(e) => setContact(e.target.value)} />
-            </div>
-            <div>
-              <label>Email: </label> 
-              <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-            <div>
-              <label>Address: </label> 
-              <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-            </div>
-            <button onClick={(event) => addProduct(event)}>
-              {editId ? "UPDATE" : "SUBMIT"}
-            </button>
-          </form>
-        </div>
+              <button onClick={(event) => addProduct(event)}>
+                {editId ? "UPDATE" : "SUBMIT"}
+              </button>
+            </form>
+          </div>
+        </main>
       </div>
     </>
   );
