@@ -67,6 +67,7 @@ header > h1 {
   width: 250px;
   box-shadow: 0px 0px 10px -1px rgb(191, 191, 191);
   justify-content: center;
+  /* border: 1px solid rgb(230, 230, 230); */
 }
 
 .leftData div {
@@ -105,6 +106,8 @@ header > h1 {
   overflow-y: auto;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0px 0px 10px -1px rgb(165, 187, 191);
+  /* border: 1px solid black; */
 }
 
 .right {
