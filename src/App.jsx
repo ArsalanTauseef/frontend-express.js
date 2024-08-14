@@ -8,7 +8,9 @@ function App() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [shouldFetch, setFetchData] = useState(true);
-  const [editId, setEditId] = useState(null); // State to track the id of the product being edited
+  const [editId, setEditId] = useState(null);
+  const [currentURL, setURL] = useState("...");
+  const [loading, setLoading] = useState(false);
 
   const fetchData = () => {
     fetch("https://backend-express-js-two.vercel.app/api/my-products")
@@ -28,7 +30,7 @@ function App() {
 
   const addProduct = (event) => {
     event.preventDefault();
-
+    setURL("https://backend-express-js-two.vercel.app/api/update-product");
     const data = {
       name,
       contact,
@@ -39,8 +41,8 @@ function App() {
     const url = editId
       ? `https://backend-express-js-two.vercel.app/api/update-product/${editId}`
       : "https://backend-express-js-two.vercel.app/api/add-products";
-    const method = editId ? "PATCH" : "POST"; // Use PATCH for update and POST for add
-
+    const method = editId ? "PATCH" : "POST";
+    setLoading(true);
     fetch(url, {
       method,
       headers: {
@@ -56,11 +58,14 @@ function App() {
         setEmail("");
         setAddress("");
         setEditId(null); // Reset editId after successful operation
+        setLoading(false);
+        setURL("...");
       }
     });
   };
 
   const deleteProduct = (id) => {
+    setURL("https://backend-express-js-two.vercel.app/api/delete-product");
     fetch(
       `https://backend-express-js-two.vercel.app/api/delete-product/${id}`,
       {
@@ -69,14 +74,17 @@ function App() {
     ).then((res) => {
       if (res.ok) {
         setApiData(apiData.filter((item) => item.id !== id));
+        setURL("...");
         console.log("Product deleted");
       } else {
+        setURL("...");
         console.error("Failed to delete the product");
       }
     });
   };
 
   const handleEdit = (item) => {
+    setURL("https://backend-express-js-two.vercel.app/api/update-product")
     setName(item.name);
     setContact(item.contact);
     setEmail(item.email);
@@ -97,33 +105,37 @@ function App() {
           <div className="left">
             <h1>DATA</h1>
             <div className="left-div-2">
-              {apiData.map((item) => (
-                <div className="leftData" key={item.id}>
-                  <div>
-                    <h5>ID: </h5>
-                    <p>{item.id}</p>
-                  </div>
-                  <div>
-                    <h5>Name: </h5>
-                    <p>{item.name}</p>
-                  </div>
-                  <div>
-                    <h5>Contact: </h5>
-                    <p>{item.contact}</p>
-                  </div>
-                  <div>
-                    <h5>Email: </h5>
-                    <p>{item.email}</p>
-                  </div>
-                  <div>
-                    <h5>Address: </h5>
-                    <p>{item.address}</p>
-                  </div>
-                  <button onClick={() => deleteProduct(item.id)}>Delete</button>
-                  <button onClick={() => handleEdit(item)}>Edit</button>{" "}
-                  {/* Add an edit button */}
-                </div>
-              ))}
+              {loading
+                ? "loading..."
+                : apiData.map((item) => (
+                    <div className="leftData" key={item.id}>
+                      <div>
+                        <h5>ID: </h5>
+                        <p>{item.id}</p>
+                      </div>
+                      <div>
+                        <h5>Name: </h5>
+                        <p>{item.name}</p>
+                      </div>
+                      <div>
+                        <h5>Contact: </h5>
+                        <p>{item.contact}</p>
+                      </div>
+                      <div>
+                        <h5>Email: </h5>
+                        <p>{item.email}</p>
+                      </div>
+                      <div>
+                        <h5>Address: </h5>
+                        <p>{item.address}</p>
+                      </div>
+                      <button onClick={() => deleteProduct(item.id)}>
+                        Delete
+                      </button>
+                      <button onClick={() => handleEdit(item)}>Edit</button>{" "}
+                      {/* Add an edit button */}
+                    </div>
+                  ))}
             </div>
           </div>
           <div className="right">
@@ -165,6 +177,15 @@ function App() {
                 {editId ? "UPDATE" : "SUBMIT"}
               </button>
             </form>
+
+            <div>
+              <p style={{ textAlign:'center',color: currentURL == "..." ? "red" : "green",
+                fontSize: currentURL == "..." ? "15px" : "15px"}}>
+                {currentURL == "..."
+                  ? `No API is yet fetched from github.com/ArsalanTauseef`
+                  : `API accessed: ${currentURL}`}
+              </p>
+            </div>
           </div>
         </main>
       </div>
