@@ -30,7 +30,7 @@ function App() {
 
   const addProduct = (event) => {
     event.preventDefault();
-    setURL("https://backend-express-js-two.vercel.app/api/update-product");
+    setURL("https://backend-express-js-two.vercel.app/api/add-product");
     const data = {
       name,
       contact,
@@ -180,7 +180,7 @@ function App() {
 
             <div>
               <p style={{ textAlign:'center',color: currentURL == "..." ? "red" : "green",
-                fontSize: currentURL == "..." ? "15px" : "15px"}}>
+                fontSize: currentURL == "..." ? "15px" : "12px"}}>
                 {currentURL == "..."
                   ? `No API is yet fetched from github.com/ArsalanTauseef`
                   : `API accessed: ${currentURL}`}
