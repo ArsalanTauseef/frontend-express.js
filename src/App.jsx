@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 function App() {
@@ -11,6 +11,26 @@ function App() {
   const [editId, setEditId] = useState(null);
   const [currentURL, setURL] = useState("...");
   const [loading, setLoading] = useState(false);
+  const [ripple, setRipple] = useState({ visible: false, x:0, y:0,});
+  const ref = useRef(null);
+
+
+   const handleButtonClick = (e) => {
+    // setRipple(false)
+    const btnElement = ref.current;
+    const rect = btnElement.getBoundingClientRect();
+    console.log(rect)
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setRipple({visible: true, x: x - 50, y: y - 50})
+    setTimeout(()=>{
+      setRipple({
+        ...ripple,
+        visible:false,
+      })
+    }, 1000)
+    console.log("Coordinates:", x, y);
+  };
 
   const fetchData = () => {
     fetch("https://backend-express-js-two.vercel.app/api/my-products")
@@ -62,6 +82,9 @@ function App() {
         setURL("...");
       }
     });
+
+
+
   };
 
   const deleteProduct = (id) => {
@@ -173,8 +196,12 @@ function App() {
                   onChange={(e) => setAddress(e.target.value)}
                 />
               </div>
-              <button onClick={(event) => addProduct(event)}>
+              <button ref={ref} onClick={(event) => {addProduct(event); handleButtonClick(event);}  }>
                 {editId ? "UPDATE" : "SUBMIT"}
+                {ripple.visible && (<span className="rippleEffect" style={{
+                      left: ripple.x,
+                      top: ripple.y,
+                    }}></span>)}
               </button>
             </form>
 
